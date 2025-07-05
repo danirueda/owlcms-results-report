@@ -1,10 +1,12 @@
 package com.danirueda.owlcms_results_report.service;
 
 import com.danirueda.owlcms_results_report.model.Athlete;
+import com.danirueda.owlcms_results_report.model.Competition;
 import com.danirueda.owlcms_results_report.model.Participation;
 import com.danirueda.owlcms_results_report.model.ParticipationId;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +40,14 @@ public class LoadDataServiceTest {
 
     @Test
     public void loadCompetition() {
-        fail("TODO");
+        JsonObject competitionData = getCompetitionData();
+        JsonObject competition = new JsonObject();
+        competition.add("competition", competitionData);
+        Competition expected = getExpectedCompetition(competitionData);
+
+        Competition result = loadDataService.loadCompetition(competition);
+
+        assertEquals(expected, result);
     }
 
     @Test
@@ -63,6 +73,168 @@ public class LoadDataServiceTest {
     @Test
     public void loadRecordConfig() {
         fail("TODO");
+    }
+
+    private JsonObject getCompetitionData() {
+        JsonObject competition = new JsonObject();
+
+        competition.addProperty("id", 86);
+        competition.addProperty("ageGroupsFileName", "ES-AgeGroups_es_ES.xlsx");
+        competition.addProperty("announcerLiveDecisions", true);
+        competition.add("cardsTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("competitionCity", "Calatayud");
+
+        JsonArray competitionDate = new JsonArray();
+        competitionDate.add(2025);
+        competitionDate.add(6);
+        competitionDate.add(28);
+        competition.add("competitionDate", competitionDate);
+
+        competition.add("competitionEndDate", JsonNull.INSTANCE);
+        competition.addProperty("competitionName", "Top Competition");
+        competition.addProperty("competitionOrganizer", "FAH");
+        competition.addProperty("competitionSite", "Some place around the world");
+        competition.addProperty("customScore", false);
+        competition.addProperty("enforce20kgRule", false);
+        competition.addProperty("federation", "Real Federación Española de Halterofilia");
+        competition.addProperty("federationAddress", " ");
+        competition.add("federationEMail", JsonNull.INSTANCE);
+        competition.addProperty("federationWebSite", " ");
+        competition.add("finalPackageTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("genderOrder", true);
+        competition.addProperty("fixedOrder", false);
+        competition.add("juryTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("masters", false);
+        competition.addProperty("mastersGenderEquality", false);
+        competition.addProperty("maxTeamSize", 10);
+        competition.addProperty("maxPerCategory", 10);
+        competition.add("protocolTemplateFileName", JsonNull.INSTANCE);
+        competition.add("resultsTemplateFileName", JsonNull.INSTANCE);
+        competition.add("introductionTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("refereeWakeUpDelay", 1500);
+        competition.addProperty("roundRobinOrder", false);
+        competition.addProperty("snatchCJTotalMedals", false);
+        competition.addProperty("weighInFormTemplateFileName", "WeighInForm-A4.xlsx");
+        competition.addProperty("emptyProtocolTemplateFileName", "EmptyWithDeclaration-A4.xlsx");
+        competition.addProperty("startListTemplateFileName", "Sessions-A4.xlsx");
+        competition.add("scheduleTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("useBirthYear", true);
+        competition.addProperty("automaticCJBreak", false);
+        competition.addProperty("useCategorySinclair", false);
+        competition.addProperty("sinclairYear", 2024);
+        competition.addProperty("useOldBodyWeightTieBreak", false);
+        competition.addProperty("jurySize", 3);
+        competition.addProperty("longerBreakMax", 6);
+        competition.addProperty("longerBreakDuration", 10);
+        competition.addProperty("shorterBreakMin", 9);
+        competition.addProperty("shorterBreakDuration", 10);
+        competition.add("categoriesListTemplateFileName", JsonNull.INSTANCE);
+        competition.add("bodyWeightListTemplateFileName", JsonNull.INSTANCE);
+        competition.add("officialsListTemplateFileName", JsonNull.INSTANCE);
+        competition.add("teamsListTemplateFileName", JsonNull.INSTANCE);
+        competition.add("recordOrder", JsonNull.INSTANCE);
+        competition.addProperty("scoringSystem", "BW_SINCLAIR");
+        competition.addProperty("displayScores", false);
+        competition.addProperty("displayScoreRanks", false);
+        competition.add("checkInTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("displayByAgeGroup", false);
+        competition.addProperty("announcerControlledJuryDecision", true);
+        competition.add("currentRecordsTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("masters20kg", false);
+        competition.add("technicalOfficialsTemplateFileName", JsonNull.INSTANCE);
+        competition.addProperty("imwa", true);
+        competition.addProperty("deduct250g", true);
+        competition.addProperty("computedFinalPackageTemplateFileName", "Total-A4.xls");
+        competition.addProperty("sinclair", false);
+        competition.addProperty("genderInclusive", false);
+        competition.addProperty("invitedIfBornBefore", 0);
+        competition.addProperty("localizedCompetitionDate", "28/6/2025");
+        competition.addProperty("translatedScoringSystemName", "Sinclair");
+        competition.add("mensTeamSize", JsonNull.INSTANCE);
+        competition.add("womensTeamSize", JsonNull.INSTANCE);
+
+        return competition;
+    }
+
+    private Competition getExpectedCompetition(JsonObject competitionData) {
+        Competition result = new Competition();
+
+
+        result.setId(competitionData.get("id").getAsInt());
+        result.setAgeGroupsFileName(competitionData.get("ageGroupsFileName").getAsString());
+        result.setAnnouncerLiveDecisions(competitionData.get("announcerLiveDecisions").getAsBoolean());
+        result.setCardsTemplateFileName(null);
+        result.setCompetitionCity("Calatayud");
+        result.setCompetitionDate(new Integer[] {
+                competitionData.get("competitionDate").getAsJsonArray().get(0).getAsInt(),
+                competitionData.get("competitionDate").getAsJsonArray().get(1).getAsInt(),
+                competitionData.get("competitionDate").getAsJsonArray().get(2).getAsInt()
+        });
+
+        result.setCompetitionEndDate(null);
+        result.setCompetitionName(competitionData.get("competitionName").getAsString());
+        result.setCompetitionOrganizer(competitionData.get("competitionOrganizer").getAsString());
+        result.setCompetitionSite(competitionData.get("competitionSite").getAsString());
+        result.setCustomScore(competitionData.get("customScore").getAsBoolean());
+        result.setEnforce20kgRule(competitionData.get("enforce20kgRule").getAsBoolean());
+        result.setFederation(competitionData.get("federation").getAsString());
+        result.setFederationAddress(competitionData.get("federationAddress").getAsString());
+        result.setFederationEMail(null);
+        result.setFederationWebSite(competitionData.get("federationWebSite").getAsString());
+        result.setFinalPackageTemplateFileName(null);
+        result.setGenderOrder(competitionData.get("genderOrder").getAsBoolean());
+        result.setFixedOrder(competitionData.get("fixedOrder").getAsBoolean());
+        result.setJuryTemplateFileName(null);
+        result.setMasters(competitionData.get("masters").getAsBoolean());
+        result.setMastersGenderEquality(competitionData.get("mastersGenderEquality").getAsBoolean());
+        result.setMaxTeamSize(competitionData.get("maxTeamSize").getAsInt());
+        result.setMaxPerCategory(competitionData.get("maxPerCategory").getAsInt());
+        result.setProtocolTemplateFileName(null);
+        result.setResultsTemplateFileName(null);
+        result.setIntroductionTemplateFileName(null);
+        result.setRefereeWakeUpDelay(competitionData.get("refereeWakeUpDelay").getAsInt());
+        result.setRoundRobinOrder(competitionData.get("roundRobinOrder").getAsBoolean());
+        result.setSnatchCJTotalMedals(competitionData.get("snatchCJTotalMedals").getAsBoolean());
+        result.setWeighInFormTemplateFileName(competitionData.get("weighInFormTemplateFileName").getAsString());
+        result.setEmptyProtocolTemplateFileName(competitionData.get("emptyProtocolTemplateFileName").getAsString());
+        result.setStartListTemplateFileName(competitionData.get("startListTemplateFileName").getAsString());
+        result.setScheduleTemplateFileName(null);
+        result.setUseBirthYear(competitionData.get("useBirthYear").getAsBoolean());
+        result.setAutomaticCJBreak(competitionData.get("automaticCJBreak").getAsBoolean());
+        result.setUseCategorySinclair(competitionData.get("useCategorySinclair").getAsBoolean());
+        result.setSinclairYear(competitionData.get("sinclairYear").getAsInt());
+        result.setUseOldBodyWeightTieBreak(competitionData.get("useOldBodyWeightTieBreak").getAsBoolean());
+        result.setJurySize(competitionData.get("jurySize").getAsInt());
+        result.setLongerBreakMax(competitionData.get("longerBreakMax").getAsInt());
+        result.setLongerBreakDuration(competitionData.get("longerBreakDuration").getAsInt());
+        result.setShorterBreakMin(competitionData.get("shorterBreakMin").getAsInt());
+        result.setShorterBreakDuration(competitionData.get("shorterBreakDuration").getAsInt());
+        result.setCategoriesListTemplateFileName(null);
+        result.setBodyWeightListTemplateFileName(null);
+        result.setOfficialsListTemplateFileName(null);
+        result.setTeamsListTemplateFileName(null);
+        result.setRecordOrder(null);
+        result.setScoringSystem(competitionData.get("scoringSystem").getAsString());
+        result.setDisplayScores(competitionData.get("displayScores").getAsBoolean());
+        result.setDisplayScoreRanks(competitionData.get("displayScoreRanks").getAsBoolean());
+        result.setCheckInTemplateFileName(null);
+        result.setDisplayByAgeGroup(competitionData.get("displayByAgeGroup").getAsBoolean());
+        result.setAnnouncerControlledJuryDecision(competitionData.get("announcerControlledJuryDecision").getAsBoolean());
+        result.setCurrentRecordsTemplateFileName(null);
+        result.setMasters20kg(competitionData.get("masters20kg").getAsBoolean());
+        result.setTechnicalOfficialsTemplateFileName(null);
+        result.setImwa(competitionData.get("imwa").getAsBoolean());
+        result.setDeduct250g(competitionData.get("deduct250g").getAsBoolean());
+        result.setComputedFinalPackageTemplateFileName(competitionData.get("computedFinalPackageTemplateFileName").getAsString());
+        result.setSinclair(competitionData.get("sinclair").getAsBoolean());
+        result.setGenderInclusive(competitionData.get("genderInclusive").getAsBoolean());
+        result.setInvitedIfBornBefore(competitionData.get("invitedIfBornBefore").getAsInt());
+        result.setLocalizedCompetitionDate(competitionData.get("localizedCompetitionDate").getAsString());
+        result.setTranslatedScoringSystemName(competitionData.get("translatedScoringSystemName").getAsString());
+        result.setMensTeamSize(null);
+        result.setWomensTeamSize(null);
+
+        return result;
     }
 
     private JsonArray getAthletesData() {

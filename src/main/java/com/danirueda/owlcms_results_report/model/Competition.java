@@ -12,7 +12,7 @@ public class Competition {
     private Boolean announcerLiveDecisions;
     private String cardsTemplateFileName;
     private String competitionCity;
-    private List<Integer> competitionDate;
+    private Integer[] competitionDate;
     private String competitionEndDate;
     private String competitionName;
     private String competitionOrganizer;
