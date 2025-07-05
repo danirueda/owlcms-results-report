@@ -1,6 +1,7 @@
 package com.danirueda.owlcms_results_report.service;
 
 import com.danirueda.owlcms_results_report.model.*;
+import com.danirueda.owlcms_results_report.model.Record;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -77,12 +78,137 @@ public class LoadDataServiceTest {
 
     @Test
     public void loadRecords() {
-        fail("TODO");
+        JsonArray recordsData = getRecordsData();
+        JsonObject records = new JsonObject();
+        records.add("records", recordsData);
+        List<Record> expected = getExpectedRecords(recordsData);
+
+        List<Record> result = loadDataService.loadRecords(records);
+
+        assertEquals(expected, result);
     }
 
     @Test
     public void loadRecordConfig() {
         fail("TODO");
+    }
+
+    private JsonArray getRecordsData() {
+        JsonArray records = new JsonArray();
+
+        JsonObject record = new JsonObject();
+        record.addProperty("athleteBW", 43.999);
+        record.addProperty("id", 1836164760276982474L);
+        record.addProperty("recordValue", 31.0);
+        record.addProperty("ageGrp", "U15");
+        record.addProperty("ageGrpLower", 13);
+        record.addProperty("ageGrpUpper", 15);
+        record.addProperty("athleteName", "");
+        record.addProperty("bwCatLower", 0);
+        record.addProperty("bwCatUpper", 44);
+        record.addProperty("eventLocation", "");
+        record.addProperty("gender", "F");
+        record.addProperty("recordFederation", "Aragon");
+        record.addProperty("recordLift", "SNATCH");
+        record.addProperty("recordName", "Aragon");
+        record.addProperty("recordYear", 0);
+        record.addProperty("fileName", "records-aragon-owlcms");
+        record.addProperty("bwCatString", "44");
+        record.addProperty("recordDateAsString", "");
+        record.addProperty("translatedGender", "Femenino");
+        record.addProperty("translatedLift", "Arrancada");
+        record.addProperty("key", "Aragon_F_SNATCH_0_44_13_15");
+
+        records.add(record);
+
+        record = new JsonObject();
+        record.addProperty("athleteBW", 43.999);
+        record.addProperty("id", 1836164760289155548L);
+        record.addProperty("recordValue", 42.0);
+        record.addProperty("ageGrp", "U15");
+        record.addProperty("ageGrpLower", 13);
+        record.addProperty("ageGrpUpper", 15);
+        record.addProperty("athleteName", "");
+        record.addProperty("bwCatLower", 0);
+        record.addProperty("bwCatUpper", 44);
+        record.addProperty("eventLocation", "");
+        record.addProperty("gender", "F");
+        record.addProperty("recordFederation", "Aragon");
+        record.addProperty("recordLift", "CLEANJERK");
+        record.addProperty("recordName", "Aragon");
+        record.addProperty("recordYear", 0);
+        record.addProperty("fileName", "records-aragon-owlcms");
+        record.addProperty("bwCatString", "44");
+        record.addProperty("recordDateAsString", "");
+        record.addProperty("translatedGender", "Femenino");
+        record.addProperty("translatedLift", "Dos Tiempos");
+        record.addProperty("key", "Aragon_F_CLEANJERK_0_44_13_15");
+
+        records.add(record);
+
+        record = new JsonObject();
+        record.addProperty("athleteBW", 43.999);
+        record.addProperty("id", 1836164760291136632L);
+        record.addProperty("recordValue", 73.0);
+        record.addProperty("ageGrp", "U15");
+        record.addProperty("ageGrpLower", 13);
+        record.addProperty("ageGrpUpper", 15);
+        record.addProperty("athleteName", "");
+        record.addProperty("bwCatLower", 0);
+        record.addProperty("bwCatUpper", 44);
+        record.addProperty("eventLocation", "");
+        record.addProperty("gender", "F");
+        record.addProperty("recordFederation", "Aragon");
+        record.addProperty("recordLift", "TOTAL");
+        record.addProperty("recordName", "Aragon");
+        record.addProperty("recordYear", 0);
+        record.addProperty("fileName", "records-aragon-owlcms");
+        record.addProperty("bwCatString", "44");
+        record.addProperty("recordDateAsString", "");
+        record.addProperty("translatedGender", "Femenino");
+        record.addProperty("translatedLift", "Total Olímpico");
+        record.addProperty("key", "Aragon_F_TOTAL_0_44_13_15");
+
+        records.add(record);
+
+        return records;
+    }
+
+    private List<Record> getExpectedRecords(JsonArray records) {
+        List<Record> result = new ArrayList<>();
+
+        JsonObject recordData;
+        Record record;
+        for (JsonElement item : records) {
+            record = new Record();
+            recordData = item.getAsJsonObject();
+
+            record.setAthleteBW(new BigDecimal(recordData.get("athleteBW").getAsString()));
+            record.setId(recordData.get("id").getAsLong());
+            record.setRecordValue(new BigDecimal(recordData.get("recordValue").getAsString()));
+            record.setAgeGrp(recordData.get("ageGrp").getAsString());
+            record.setAgeGrpLower(recordData.get("ageGrpLower").getAsInt());
+            record.setAgeGrpUpper(recordData.get("ageGrpUpper").getAsInt());
+            record.setAthleteName(recordData.get("athleteName").getAsString());
+            record.setBwCatLower(recordData.get("bwCatLower").getAsInt());
+            record.setBwCatUpper(recordData.get("bwCatUpper").getAsInt());
+            record.setEventLocation(recordData.get("eventLocation").getAsString());
+            record.setGender(recordData.get("gender").getAsString());
+            record.setRecordFederation(recordData.get("recordFederation").getAsString());
+            record.setRecordLift(recordData.get("recordLift").getAsString());
+            record.setRecordName(recordData.get("recordName").getAsString());
+            record.setRecordYear(recordData.get("recordYear").getAsInt());
+            record.setFileName(recordData.get("fileName").getAsString());
+            record.setBwCatString(recordData.get("bwCatString").getAsString());
+            record.setRecordDateAsString(recordData.get("recordDateAsString").getAsString());
+            record.setTranslatedGender(recordData.get("translatedGender").getAsString());
+            record.setTranslatedLift(recordData.get("translatedLift").getAsString());
+            record.setKey(recordData.get("key").getAsString());
+
+            result.add(record);
+        }
+
+        return result;
     }
 
     private JsonArray getAgeGroupsData() {
