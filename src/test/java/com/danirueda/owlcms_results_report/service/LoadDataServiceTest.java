@@ -65,7 +65,14 @@ public class LoadDataServiceTest {
 
     @Test
     public void loadAgeGroups() {
-        fail("TODO");
+        JsonArray ageGroupsData = getAgeGroupsData();
+        JsonObject ageGroups = new JsonObject();
+        ageGroups.add("ageGroups", ageGroupsData);
+        List<AgeGroup> expected = getExpectedAgeGroups(ageGroupsData);
+
+        List<AgeGroup> result = loadDataService.loadAgeGroups(ageGroups);
+
+        assertEquals(expected, result);
     }
 
     @Test
@@ -76,6 +83,187 @@ public class LoadDataServiceTest {
     @Test
     public void loadRecordConfig() {
         fail("TODO");
+    }
+
+    private JsonArray getAgeGroupsData() {
+        JsonArray ageGroups = new JsonArray();
+
+        JsonObject groupF = new JsonObject();
+        groupF.addProperty("key", "Open_DEFAULT_F_0_999");
+        groupF.addProperty("active", true);
+        groupF.addProperty("code", "Open");
+        groupF.addProperty("maxAge", 999);
+        groupF.addProperty("minAge", 0);
+        groupF.addProperty("ageDivision", "DEFAULT");
+        groupF.addProperty("championshipName", "Open");
+
+        JsonArray femaleCategories = new JsonArray();
+
+        JsonObject catF48 = new JsonObject();
+        catF48.addProperty("id", 1836027376527791815L);
+        catF48.addProperty("maximumWeight", 48.0);
+        catF48.addProperty("minimumWeight", 0.0);
+        catF48.addProperty("active", true);
+        catF48.addProperty("ageGroup", "Open_DEFAULT_F_0_999");
+        catF48.addProperty("code", "Open_F48");
+        catF48.addProperty("gender", "F");
+        catF48.addProperty("name", "F 48");
+        catF48.addProperty("qualifyingTotal", 0);
+        catF48.addProperty("wrJr", 0);
+        catF48.addProperty("wrSr", 0);
+        catF48.addProperty("wrYth", 0);
+        catF48.addProperty("upperBound", "48");
+        catF48.addProperty("translatedGender", "F");
+
+        JsonObject catF53 = new JsonObject();
+        catF53.addProperty("id", 1836027376528010523L);
+        catF53.addProperty("maximumWeight", 53.0);
+        catF53.addProperty("minimumWeight", 48.0);
+        catF53.addProperty("active", true);
+        catF53.addProperty("ageGroup", "Open_DEFAULT_F_0_999");
+        catF53.addProperty("code", "Open_F53");
+        catF53.addProperty("gender", "F");
+        catF53.addProperty("name", "F 53");
+        catF53.addProperty("qualifyingTotal", 0);
+        catF53.addProperty("wrJr", 0);
+        catF53.addProperty("wrSr", 0);
+        catF53.addProperty("wrYth", 0);
+        catF53.addProperty("upperBound", "53");
+        catF53.addProperty("translatedGender", "F");
+
+        femaleCategories.add(catF48);
+        femaleCategories.add(catF53);
+
+        groupF.add("categories", femaleCategories);
+        groupF.addProperty("gender", "F");
+        groupF.add("qualificationTotal", JsonNull.INSTANCE);
+        groupF.addProperty("alreadyGendered", false);
+        groupF.add("scoringSystem", JsonNull.INSTANCE);
+        groupF.addProperty("championshipType", "DEFAULT");
+        groupF.add("bestAthleteScoringSystem", JsonNull.INSTANCE);
+        groupF.addProperty("medals", true);
+        groupF.addProperty("bestAthleteScoringSystemTitle", "Sinclair");
+        groupF.addProperty("translatedGender", "F");
+
+        ageGroups.add(groupF);
+
+        JsonObject groupM = new JsonObject();
+        groupM.addProperty("key", "Open_DEFAULT_M_0_999");
+        groupM.addProperty("active", true);
+        groupM.addProperty("code", "Open");
+        groupM.addProperty("maxAge", 999);
+        groupM.addProperty("minAge", 0);
+        groupM.addProperty("ageDivision", "DEFAULT");
+        groupM.addProperty("championshipName", "Open");
+
+        JsonArray maleCategories = new JsonArray();
+
+        JsonObject catM60 = new JsonObject();
+        catM60.addProperty("id", 1836027376558361336L);
+        catM60.addProperty("maximumWeight", 60.0);
+        catM60.addProperty("minimumWeight", 0.0);
+        catM60.addProperty("active", true);
+        catM60.addProperty("ageGroup", "Open_DEFAULT_M_0_999");
+        catM60.addProperty("code", "Open_M60");
+        catM60.addProperty("gender", "M");
+        catM60.addProperty("name", "M 60");
+        catM60.addProperty("qualifyingTotal", 0);
+        catM60.addProperty("wrJr", 0);
+        catM60.addProperty("wrSr", 0);
+        catM60.addProperty("wrYth", 0);
+        catM60.addProperty("upperBound", "60");
+        catM60.addProperty("translatedGender", "M");
+
+        JsonObject catM65 = new JsonObject();
+        catM65.addProperty("id", 1836027376558508572L);
+        catM65.addProperty("maximumWeight", 65.0);
+        catM65.addProperty("minimumWeight", 60.0);
+        catM65.addProperty("active", true);
+        catM65.addProperty("ageGroup", "Open_DEFAULT_M_0_999");
+        catM65.addProperty("code", "Open_M65");
+        catM65.addProperty("gender", "M");
+        catM65.addProperty("name", "M 65");
+        catM65.addProperty("qualifyingTotal", 0);
+        catM65.addProperty("wrJr", 0);
+        catM65.addProperty("wrSr", 0);
+        catM65.addProperty("wrYth", 0);
+        catM65.addProperty("upperBound", "65");
+        catM65.addProperty("translatedGender", "M");
+
+        maleCategories.add(catM60);
+        maleCategories.add(catM65);
+
+        groupM.add("categories", maleCategories);
+        groupM.addProperty("gender", "M");
+        groupM.add("qualificationTotal", JsonNull.INSTANCE);
+        groupM.addProperty("alreadyGendered", false);
+        groupM.add("scoringSystem", JsonNull.INSTANCE);
+        groupM.addProperty("championshipType", "DEFAULT");
+        groupM.add("bestAthleteScoringSystem", JsonNull.INSTANCE);
+        groupM.addProperty("medals", true);
+        groupM.addProperty("bestAthleteScoringSystemTitle", "Sinclair");
+        groupM.addProperty("translatedGender", "M");
+
+        ageGroups.add(groupM);
+
+        return ageGroups;
+    }
+
+    private List<AgeGroup> getExpectedAgeGroups(JsonArray ageGroupsData) {
+        List<AgeGroup> result = new ArrayList<>();
+
+        AgeGroup ageGroup;
+        JsonObject ageGroupData;
+        for (JsonElement item : ageGroupsData) {
+            ageGroup = new AgeGroup();
+            ageGroupData = item.getAsJsonObject();
+
+            ageGroup.setKey(ageGroupData.get("key").getAsString());
+            ageGroup.setActive(ageGroupData.get("active").getAsBoolean());
+            ageGroup.setCode(ageGroupData.get("code").getAsString());
+            ageGroup.setMaxAge(ageGroupData.get("maxAge").getAsInt());
+            ageGroup.setMinAge(ageGroupData.get("minAge").getAsInt());
+            ageGroup.setAgeDivision(ageGroupData.get("ageDivision").getAsString());
+            ageGroup.setChampionshipName(ageGroupData.get("championshipName").getAsString());
+
+            Category category;
+            JsonObject categoryData;
+            for (JsonElement categoryItem : ageGroupData.get("categories").getAsJsonArray()) {
+                category = new Category();
+                categoryData = categoryItem.getAsJsonObject();
+
+                category.setId(categoryData.get("id").getAsLong());
+                category.setMaximumWeight(new BigDecimal(categoryData.get("maximumWeight").getAsString()));
+                category.setMinimumWeight(new BigDecimal(categoryData.get("minimumWeight").getAsString()));
+                category.setActive(categoryData.get("active").getAsBoolean());
+                category.setAgeGroup(categoryData.get("ageGroup").getAsString());
+                category.setCode(categoryData.get("code").getAsString());
+                category.setGender(categoryData.get("gender").getAsString());
+                category.setName(categoryData.get("name").getAsString());
+                category.setQualifyingTotal(categoryData.get("qualifyingTotal").getAsInt());
+                category.setWrJr(categoryData.get("wrJr").getAsInt());
+                category.setWrSr(categoryData.get("wrSr").getAsInt());
+                category.setWrYth(categoryData.get("wrYth").getAsInt());
+                category.setUpperBound(categoryData.get("upperBound").getAsString());
+                category.setTranslatedGender(categoryData.get("translatedGender").getAsString());
+
+                ageGroup.addCategory(category);
+            }
+
+            ageGroup.setGender(ageGroupData.get("gender").getAsString());
+            ageGroup.setQualificationTotal(null);
+            ageGroup.setAlreadyGendered(ageGroupData.get("alreadyGendered").getAsBoolean());
+            ageGroup.setScoringSystem(null);
+            ageGroup.setChampionshipType(ageGroupData.get("championshipType").getAsString());
+            ageGroup.setBestAthleteScoringSystem(null);
+            ageGroup.setMedals(ageGroupData.get("medals").getAsBoolean());
+            ageGroup.setBestAthleteScoringSystemTitle(ageGroupData.get("bestAthleteScoringSystemTitle").getAsString());
+            ageGroup.setTranslatedGender(ageGroupData.get("translatedGender").getAsString());
+
+            result.add(ageGroup);
+        }
+
+        return result;
     }
 
     private JsonArray getPlatformsData() {
