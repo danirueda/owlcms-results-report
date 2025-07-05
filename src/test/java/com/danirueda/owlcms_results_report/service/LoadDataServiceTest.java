@@ -1,9 +1,6 @@
 package com.danirueda.owlcms_results_report.service;
 
-import com.danirueda.owlcms_results_report.model.Athlete;
-import com.danirueda.owlcms_results_report.model.Competition;
-import com.danirueda.owlcms_results_report.model.Participation;
-import com.danirueda.owlcms_results_report.model.ParticipationId;
+import com.danirueda.owlcms_results_report.model.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
@@ -14,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -52,7 +48,14 @@ public class LoadDataServiceTest {
 
     @Test
     public void loadPlatforms() {
-        fail("TODO");
+        JsonArray platformsData = getPlatformsData();
+        JsonObject platforms = new JsonObject();
+        platforms.add("platforms", platformsData);
+        List<Platform> expected = getExpectedPlatforms(platformsData);
+
+        List<Platform> result = loadDataService.loadPlatforms(platforms);
+
+        assertEquals(expected, result);
     }
 
     @Test
@@ -73,6 +76,80 @@ public class LoadDataServiceTest {
     @Test
     public void loadRecordConfig() {
         fail("TODO");
+    }
+
+    private JsonArray getPlatformsData() {
+        JsonArray result = new JsonArray();
+
+        JsonObject platform = new JsonObject();
+        platform.addProperty("id", 1836027061987287429L);
+        platform.addProperty("name", "A");
+        platform.addProperty("nbC_2_5", 1);
+        platform.addProperty("nbL_10", 1);
+        platform.addProperty("nbL_15", 1);
+        platform.addProperty("nbL_20", 1);
+        platform.addProperty("nbL_25", 3);
+        platform.addProperty("nbL_2_5", 1);
+        platform.addProperty("nbL_5", 1);
+        platform.addProperty("nbS_0_5", 1);
+        platform.addProperty("nbS_1", 1);
+        platform.addProperty("nbS_1_5", 1);
+        platform.addProperty("nbS_2", 1);
+        platform.addProperty("nbS_2_5", 1);
+        platform.addProperty("nbS_5", 1);
+        platform.addProperty("nonStandardBarWeight", 0);
+        platform.addProperty("nbB_5", 0);
+        platform.addProperty("nbB_10", 0);
+        platform.addProperty("nbB_15", 1);
+        platform.addProperty("nbB_20", 1);
+        platform.addProperty("showDecisionLights", false);
+        platform.addProperty("showTimer", false);
+        platform.addProperty("soundMixerName", "Usar el sonido del Navegador");
+        platform.addProperty("nonStandardBarAvailable", false);
+
+        result.add(platform);
+
+        return result;
+    }
+
+    private List<Platform> getExpectedPlatforms(JsonArray platformsData) {
+        List<Platform> result = new ArrayList<>();
+
+        Platform platform;
+        JsonObject platformData;
+        for (JsonElement item : platformsData) {
+            platform = new Platform();
+            platformData = item.getAsJsonObject();
+
+            platform.setId(platformData.get("id").getAsLong());
+            platform.setName(platformData.get("name").getAsString());
+            platform.setNbC_2_5(platformData.get("nbC_2_5").getAsInt());
+            platform.setNbL_10(platformData.get("nbL_10").getAsInt());
+            platform.setNbL_15(platformData.get("nbL_15").getAsInt());
+            platform.setNbL_20(platformData.get("nbL_20").getAsInt());
+            platform.setNbL_25(platformData.get("nbL_25").getAsInt());
+            platform.setNbL_2_5(platformData.get("nbL_2_5").getAsInt());
+            platform.setNbL_5(platformData.get("nbL_5").getAsInt());
+            platform.setNbS_0_5(platformData.get("nbS_0_5").getAsInt());
+            platform.setNbS_1(platformData.get("nbS_1").getAsInt());
+            platform.setNbS_1_5(platformData.get("nbS_1_5").getAsInt());
+            platform.setNbS_2(platformData.get("nbS_2").getAsInt());
+            platform.setNbS_2_5(platformData.get("nbS_2_5").getAsInt());
+            platform.setNbS_5(platformData.get("nbS_5").getAsInt());
+            platform.setNonStandardBarWeight(platformData.get("nonStandardBarWeight").getAsInt());
+            platform.setNbB_5(platformData.get("nbB_5").getAsInt());
+            platform.setNbB_10(platformData.get("nbB_10").getAsInt());
+            platform.setNbB_15(platformData.get("nbB_15").getAsInt());
+            platform.setNbB_20(platformData.get("nbB_20").getAsInt());
+            platform.setShowDecisionLights(platformData.get("showDecisionLights").getAsBoolean());
+            platform.setShowTimer(platformData.get("showTimer").getAsBoolean());
+            platform.setSoundMixerName(platformData.get("soundMixerName").getAsString());
+            platform.setNonStandardBarAvailable(platformData.get("nonStandardBarAvailable").getAsBoolean());
+
+            result.add(platform);
+        }
+
+        return result;
     }
 
     private JsonObject getCompetitionData() {
