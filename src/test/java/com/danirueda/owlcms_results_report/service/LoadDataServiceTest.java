@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
 
 @SpringBootTest
 public class LoadDataServiceTest {
@@ -61,7 +60,14 @@ public class LoadDataServiceTest {
 
     @Test
     public void loadGroups() {
-        fail("TODO");
+        JsonArray groupsData = getGroupsData();
+        JsonObject groups = new JsonObject();
+        groups.add("groups", groupsData);
+        List<Group> expected = getExpectedGroups(groupsData);
+
+        List<Group> result = loadDataService.loadGroups(groups);
+
+        assertEquals(expected, result);
     }
 
     @Test
@@ -98,6 +104,203 @@ public class LoadDataServiceTest {
         RecordConfig result = loadDataService.loadRecordConfig(recordConfig);
 
         assertEquals(expected, result);
+    }
+
+    private JsonArray getGroupsData() {
+        JsonArray groups = new JsonArray();
+
+        JsonObject group = new JsonObject();
+        group.addProperty("id", 1836027649543982384L);
+        group.addProperty("platform", 1836027061987287429L);
+        group.addProperty("announcer", "Patrice Hopper");
+        group.add("competitionTime", buildDateTime(2025, 6, 28, 12, 30));
+        group.add("description", JsonNull.INSTANCE);
+        group.addProperty("done", true);
+        group.addProperty("masters", false);
+        group.add("jury1", JsonNull.INSTANCE);
+        group.add("jury2", JsonNull.INSTANCE);
+        group.add("jury3", JsonNull.INSTANCE);
+        group.add("jury4", JsonNull.INSTANCE);
+        group.add("jury5", JsonNull.INSTANCE);
+        group.add("marshall", JsonNull.INSTANCE);
+        group.add("marshal2", JsonNull.INSTANCE);
+        group.addProperty("name", "F1");
+        group.addProperty("referee1", "Darlene Tyson");
+        group.addProperty("referee2", "Jacqueline Sellers");
+        group.addProperty("referee3", "Harrison Mercer");
+        group.add("reserve", JsonNull.INSTANCE);
+        group.add("technicalController", JsonNull.INSTANCE);
+        group.add("technicalController2", JsonNull.INSTANCE);
+        group.add("timeKeeper", JsonNull.INSTANCE);
+        group.addProperty("weighIn1", "Patrice Hopper");
+        group.add("weighIn2", JsonNull.INSTANCE);
+        group.add("competitionDirector", JsonNull.INSTANCE);
+        group.add("competitionSecretary", JsonNull.INSTANCE);
+        group.add("competitionSecretary2", JsonNull.INSTANCE);
+        group.add("weighInTime", buildDateTime(2025, 6, 28, 11, 0));
+        group.add("cleanJerkBreakDuration", JsonNull.INSTANCE);
+        group.add("firstSnatchTime", buildDateTime(2025, 6, 28, 12, 30, 37, 401089000));
+        group.add("firstCJTime", buildDateTime(2025, 6, 28, 13, 8, 11, 700896000));
+        group.add("lastSnatchDecisionTime", buildDateTime(2025, 6, 28, 13, 2, 29, 257425000));
+        group.add("lastCJDecisionTime", buildDateTime(2025, 6, 28, 13, 46, 23, 953204000));
+        group.add("reserveJury", JsonNull.INSTANCE);
+        group.addProperty("nbAthletes", 3);
+        group.addProperty("nbAttemptedLifts", 18);
+
+        groups.add(group);
+
+        group = new JsonObject();
+        group.addProperty("id", 1836027649544999659L);
+        group.addProperty("platform", 1836027061987287429L);
+        group.addProperty("announcer", "Marlon Meyers");
+        group.add("competitionTime", buildDateTime(2025, 6, 28, 14, 30));
+        group.add("description", JsonNull.INSTANCE);
+        group.addProperty("done", true);
+        group.addProperty("masters", false);
+        group.add("jury1", JsonNull.INSTANCE);
+        group.add("jury2", JsonNull.INSTANCE);
+        group.add("jury3", JsonNull.INSTANCE);
+        group.add("jury4", JsonNull.INSTANCE);
+        group.add("jury5", JsonNull.INSTANCE);
+        group.add("marshall", JsonNull.INSTANCE);
+        group.add("marshal2", JsonNull.INSTANCE);
+        group.addProperty("name", "M1");
+        group.addProperty("referee1", "Wendy Kelley");
+        group.addProperty("referee2", "Fay Albert");
+        group.addProperty("referee3", "Vilma Pitts");
+        group.add("reserve", JsonNull.INSTANCE);
+        group.add("technicalController", JsonNull.INSTANCE);
+        group.add("technicalController2", JsonNull.INSTANCE);
+        group.add("timeKeeper", JsonNull.INSTANCE);
+        group.addProperty("weighIn1", "Marlon Meyers");
+        group.add("weighIn2", JsonNull.INSTANCE);
+        group.add("competitionDirector", JsonNull.INSTANCE);
+        group.add("competitionSecretary", JsonNull.INSTANCE);
+        group.add("competitionSecretary2", JsonNull.INSTANCE);
+        group.add("weighInTime", buildDateTime(2025, 6, 28, 12, 30));
+        group.add("cleanJerkBreakDuration", JsonNull.INSTANCE);
+        group.add("firstSnatchTime", buildDateTime(2025, 6, 28, 14, 15, 27, 961606000));
+        group.add("firstCJTime", buildDateTime(2025, 6, 28, 15, 13, 37, 79474000));
+        group.add("lastSnatchDecisionTime", buildDateTime(2025, 6, 28, 15, 7, 22, 464995000));
+        group.add("lastCJDecisionTime", buildDateTime(2025, 6, 28, 16, 11, 14, 546889000));
+        group.add("reserveJury", JsonNull.INSTANCE);
+        group.addProperty("nbAthletes", 3);
+        group.addProperty("nbAttemptedLifts", 18);
+
+        groups.add(group);
+
+        return groups;
+    }
+
+    private JsonArray buildDateTime(int year, int month, int day, int hour, int minute) {
+        JsonArray arr = new JsonArray();
+        arr.add(year);
+        arr.add(month);
+        arr.add(day);
+        arr.add(hour);
+        arr.add(minute);
+        return arr;
+    }
+
+    private JsonArray buildDateTime(int year, int month, int day, int hour, int minute, int second, long nanos) {
+        JsonArray arr = buildDateTime(year, month, day, hour, minute);
+        arr.add(second);
+        arr.add(nanos);
+        return arr;
+    }
+
+    private List<Group> getExpectedGroups(JsonArray groupsData) {
+        List<Group> expected = new ArrayList<>();
+        Group group;
+        JsonObject groupData;
+        for (JsonElement item : groupsData) {
+            group = new Group();
+            groupData = item.getAsJsonObject();
+
+            group.setId(groupData.get("id").getAsLong());
+            group.setPlatform(groupData.get("platform").getAsLong());
+            group.setAnnouncer(groupData.get("announcer").getAsString());
+            group.setCompetitionTime(new Integer[]{
+                    groupData.get("competitionTime").getAsJsonArray().get(0).getAsInt(),
+                    groupData.get("competitionTime").getAsJsonArray().get(1).getAsInt(),
+                    groupData.get("competitionTime").getAsJsonArray().get(2).getAsInt(),
+                    groupData.get("competitionTime").getAsJsonArray().get(3).getAsInt(),
+                    groupData.get("competitionTime").getAsJsonArray().get(4).getAsInt()
+            });
+            group.setDescription(null);
+            group.setDone(groupData.get("done").getAsBoolean());
+            group.setMasters(groupData.get("masters").getAsBoolean());
+            group.setJury1(null);
+            group.setJury2(null);
+            group.setJury3(null);
+            group.setJury4(null);
+            group.setJury5(null);
+            group.setMarshall(null);
+            group.setMarshal2(null);
+            group.setName(groupData.get("name").getAsString());
+            group.setReferee1(groupData.get("referee1").getAsString());
+            group.setReferee2(groupData.get("referee2").getAsString());
+            group.setReferee3(groupData.get("referee3").getAsString());
+            group.setReserve(null);
+            group.setTechnicalController(null);
+            group.setTimeKeeper(null);
+            group.setWeighIn1(groupData.get("weighIn1").getAsString());
+            group.setWeighIn2(null);
+            group.setCompetitionDirector(null);
+            group.setCompetitionSecretary(null);
+            group.setCompetitionSecretary2(null);
+            group.setWeighInTime(new Integer[]{
+                    groupData.get("weighInTime").getAsJsonArray().get(0).getAsInt(),
+                    groupData.get("weighInTime").getAsJsonArray().get(1).getAsInt(),
+                    groupData.get("weighInTime").getAsJsonArray().get(2).getAsInt(),
+                    groupData.get("weighInTime").getAsJsonArray().get(3).getAsInt(),
+                    groupData.get("weighInTime").getAsJsonArray().get(4).getAsInt()
+            });
+            group.setCleanJerkBreakDuration(null);
+            group.setFirstSnatchTime(new Integer[]{
+                    groupData.get("firstSnatchTime").getAsJsonArray().get(0).getAsInt(),
+                    groupData.get("firstSnatchTime").getAsJsonArray().get(1).getAsInt(),
+                    groupData.get("firstSnatchTime").getAsJsonArray().get(2).getAsInt(),
+                    groupData.get("firstSnatchTime").getAsJsonArray().get(3).getAsInt(),
+                    groupData.get("firstSnatchTime").getAsJsonArray().get(4).getAsInt(),
+                    groupData.get("firstSnatchTime").getAsJsonArray().get(5).getAsInt(),
+                    groupData.get("firstSnatchTime").getAsJsonArray().get(6).getAsInt()
+            });
+            group.setFirstCJTime(new Integer[]{
+                    groupData.get("firstCJTime").getAsJsonArray().get(0).getAsInt(),
+                    groupData.get("firstCJTime").getAsJsonArray().get(1).getAsInt(),
+                    groupData.get("firstCJTime").getAsJsonArray().get(2).getAsInt(),
+                    groupData.get("firstCJTime").getAsJsonArray().get(3).getAsInt(),
+                    groupData.get("firstCJTime").getAsJsonArray().get(4).getAsInt(),
+                    groupData.get("firstCJTime").getAsJsonArray().get(5).getAsInt(),
+                    groupData.get("firstCJTime").getAsJsonArray().get(6).getAsInt()
+            });
+            group.setLastSnatchDecisionTime(new Integer[]{
+                    groupData.get("lastSnatchDecisionTime").getAsJsonArray().get(0).getAsInt(),
+                    groupData.get("lastSnatchDecisionTime").getAsJsonArray().get(1).getAsInt(),
+                    groupData.get("lastSnatchDecisionTime").getAsJsonArray().get(2).getAsInt(),
+                    groupData.get("lastSnatchDecisionTime").getAsJsonArray().get(3).getAsInt(),
+                    groupData.get("lastSnatchDecisionTime").getAsJsonArray().get(4).getAsInt(),
+                    groupData.get("lastSnatchDecisionTime").getAsJsonArray().get(5).getAsInt(),
+                    groupData.get("lastSnatchDecisionTime").getAsJsonArray().get(6).getAsInt()
+            });
+            group.setLastCJDecisionTime(new Integer[]{
+                    groupData.get("lastCJDecisionTime").getAsJsonArray().get(0).getAsInt(),
+                    groupData.get("lastCJDecisionTime").getAsJsonArray().get(1).getAsInt(),
+                    groupData.get("lastCJDecisionTime").getAsJsonArray().get(2).getAsInt(),
+                    groupData.get("lastCJDecisionTime").getAsJsonArray().get(3).getAsInt(),
+                    groupData.get("lastCJDecisionTime").getAsJsonArray().get(4).getAsInt(),
+                    groupData.get("lastCJDecisionTime").getAsJsonArray().get(5).getAsInt(),
+                    groupData.get("lastCJDecisionTime").getAsJsonArray().get(6).getAsInt()
+            });
+            group.setReserveJury(null);
+            group.setNbAthletes(groupData.get("nbAthletes").getAsInt());
+            group.setNbAttemptedLifts(groupData.get("nbAttemptedLifts").getAsInt());
+
+            expected.add(group);
+        }
+
+        return expected;
     }
 
     private JsonObject getRecordConfigData() {

@@ -2,15 +2,13 @@ package com.danirueda.owlcms_results_report.model;
 
 import lombok.Data;
 
-import java.util.List;
-
 @Data
 public class Group {
 
     private Long id;
     private Long platform;
     private String announcer;
-    private List<Integer> competitionTime;
+    private Integer[] competitionTime;
     private String description;
     private Boolean done;
     private Boolean masters;
@@ -34,12 +32,12 @@ public class Group {
     private String competitionDirector;
     private String competitionSecretary;
     private String competitionSecretary2;
-    private List<Integer> weighInTime;
+    private Integer[] weighInTime;
     private Integer cleanJerkBreakDuration;
-    private List<Integer> firstSnatchTime;
-    private List<Integer> firstCJTime;
-    private List<Integer> lastSnatchDecisionTime;
-    private List<Integer> lastCJDecisionTime;
+    private Integer[] firstSnatchTime;
+    private Integer[] firstCJTime;
+    private Integer[] lastSnatchDecisionTime;
+    private Integer[] lastCJDecisionTime;
     private String reserveJury;
     private Integer nbAthletes;
     private Integer nbAttemptedLifts;
