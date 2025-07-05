@@ -90,7 +90,42 @@ public class LoadDataServiceTest {
 
     @Test
     public void loadRecordConfig() {
-        fail("TODO");
+        JsonObject recordConfigData = getRecordConfigData();
+        JsonObject recordConfig = new JsonObject();
+        recordConfig.add("recordConfig", recordConfigData);
+        RecordConfig expected = getExpectedRecordConfig(recordConfigData);
+
+        RecordConfig result = loadDataService.loadRecordConfig(recordConfig);
+
+        assertEquals(expected, result);
+    }
+
+    private JsonObject getRecordConfigData() {
+        JsonObject recordConfig = new JsonObject();
+
+        JsonArray recordOrder = new JsonArray();
+        recordOrder.add("Aragon");
+
+        recordConfig.add("recordOrder", recordOrder);
+        recordConfig.addProperty("showAllCategoryRecords", false);
+        recordConfig.addProperty("showAllFederations", false);
+
+        return recordConfig;
+    }
+
+    private RecordConfig getExpectedRecordConfig(JsonObject recordConfigData) {
+        RecordConfig result = new RecordConfig();
+
+        List<String> recordOrder = new ArrayList<>();
+        for (JsonElement recordOrderItem : recordConfigData.get("recordOrder").getAsJsonArray()) {
+            recordOrder.add(recordOrderItem.getAsString());
+        }
+
+        result.setRecordOrder(recordOrder);
+        result.setShowAllCategoryRecords(recordConfigData.get("showAllCategoryRecords").getAsBoolean());
+        result.setShowAllFederations(recordConfigData.get("showAllFederations").getAsBoolean());
+
+        return result;
     }
 
     private JsonArray getRecordsData() {
