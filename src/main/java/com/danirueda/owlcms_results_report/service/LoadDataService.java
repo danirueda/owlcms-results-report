@@ -28,7 +28,7 @@ public class LoadDataService {
         try (JsonReader reader = new JsonReader(new FileReader(database))) {
             JsonObject data = CONVERTER.fromJson(reader, JsonObject.class);
             log.info("Loaded database as JSON Object");
-            log.info(data.toString());
+            //log.info(data.toString());
             List<Athlete> athletes = loadAthletes(data);
             Competition competition = loadCompetition(data);
             List<Platform> platforms = loadPlatforms(data);

@@ -3,13 +3,14 @@ package com.danirueda.owlcms_results_report.model;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
 public class Athlete {
 
     private Long id;
-    private List<Participation> participations;
+    private List<Participation> participations = new ArrayList<>();
     private Long category;
     private BigDecimal bodyWeight;
     private BigDecimal scaleWeight;
@@ -19,19 +20,19 @@ public class Athlete {
     private String cleanJerk1Change1;
     private String cleanJerk1Change2;
     private String cleanJerk1Declaration;
-    private List<Integer> cleanJerk1LiftTime;
+    private List<Integer> cleanJerk1LiftTime = new ArrayList<>();
 
     private String cleanJerk2ActualLift;
     private String cleanJerk2Change1;
     private String cleanJerk2Change2;
     private String cleanJerk2Declaration;
-    private List<Integer> cleanJerk2LiftTime;
+    private List<Integer> cleanJerk2LiftTime = new ArrayList<>();
 
     private String cleanJerk3ActualLift;
     private String cleanJerk3Change1;
     private String cleanJerk3Change2;
     private String cleanJerk3Declaration;
-    private List<Integer> cleanJerk3LiftTime;
+    private List<Integer> cleanJerk3LiftTime = new ArrayList<>();
 
     private String coach;
     private Integer combinedRank;
@@ -44,7 +45,7 @@ public class Athlete {
 
     private String federationCodes;
     private String firstName;
-    private List<Integer> fullBirthDate;
+    private Integer[] fullBirthDate;
     private String gender;
     private Long group;
     private String lastName;
@@ -62,19 +63,19 @@ public class Athlete {
     private String snatch1Change1;
     private String snatch1Change2;
     private String snatch1Declaration;
-    private List<Integer> snatch1LiftTime;
+    private List<Integer> snatch1LiftTime = new ArrayList<>();
 
     private String snatch2ActualLift;
     private String snatch2Change1;
     private String snatch2Change2;
     private String snatch2Declaration;
-    private List<Integer> snatch2LiftTime;
+    private List<Integer> snatch2LiftTime = new ArrayList<>();
 
     private String snatch3ActualLift;
     private String snatch3Change1;
     private String snatch3Change2;
     private String snatch3Declaration;
-    private List<Integer> snatch3LiftTime;
+    private List<Integer> snatch3LiftTime = new ArrayList<>();
 
     private Integer startNumber;
     private String subCategory;
@@ -103,5 +104,11 @@ public class Athlete {
     private String club;
     private String requiredInitialAttempts;
     private String sessionPattern;
+
+    public void addParticipation(Participation participation) {
+        if (!participations.contains(participation)) {
+            participations.add(participation);
+        }
+    }
 
 }
