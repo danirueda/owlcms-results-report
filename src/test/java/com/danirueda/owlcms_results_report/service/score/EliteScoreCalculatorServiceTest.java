@@ -163,4 +163,162 @@ public class EliteScoreCalculatorServiceTest {
         assertEquals(expected, result);
     }
 
+    @Test
+    public void getMaleElitePointsNotExistingCategory() {
+        String category = "288";
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 115);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void getMaleElitePointsZeroKilos() {
+        String category = "52";
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 0);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void getMaleElitePointsNegativeKilos() {
+        String category = "52";
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, -40);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory52() {
+        String category = "52";
+        BigDecimal expected = new BigDecimal("39.93");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 115);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory52ToManyKilos() {
+        String category = "52";
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 520);
+
+        assertNull(result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory56() {
+        String category = "56";
+        BigDecimal expected = new BigDecimal("40.07");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 119);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory56TopPoints() {
+        String category = "56";
+        BigDecimal expected = new BigDecimal("100.00");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 297);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory60() {
+        String category = "60";
+        BigDecimal expected = new BigDecimal("60.06");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 185);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory65() {
+        String category = "65";
+        BigDecimal expected = new BigDecimal("62.04");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 201);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory71() {
+        String category = "71";
+        BigDecimal expected = new BigDecimal("48.54");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 166);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory79() {
+        String category = "79";
+        BigDecimal expected = new BigDecimal("67.49");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 245);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory88() {
+        String category = "88";
+        BigDecimal expected = new BigDecimal("45.05");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 173);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory88ToInfinity() {
+        String category = ">88";
+        BigDecimal expected = new BigDecimal("20.80");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 88);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory94() {
+        String category = "94";
+        BigDecimal expected = new BigDecimal("68.01");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 270);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory94ToInfinity() {
+        String category = ">94";
+        BigDecimal expected = new BigDecimal("40.66");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 172);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory110() {
+        String category = "110";
+        BigDecimal expected = new BigDecimal("26.82");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 114);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory110ToInfinity() {
+        String category = ">110";
+        BigDecimal expected = new BigDecimal("70.20");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 318);
+
+        assertEquals(expected, result);
+    }
+
+    @Test
+    public void getMaleElitePointsCategory110ToInfinityOneKilo() {
+        String category = ">110";
+        BigDecimal expected = new BigDecimal("0.22");
+        BigDecimal result = eliteScoreCalculatorService.getMaleElitePoints(category, 1);
+
+        assertEquals(expected, result);
+    }
+
 }

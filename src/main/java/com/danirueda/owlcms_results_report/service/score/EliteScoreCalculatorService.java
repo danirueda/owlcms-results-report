@@ -36,6 +36,43 @@ public class EliteScoreCalculatorService implements ScoreCalculatorService {
         return null; // TODO
     }
 
+    protected BigDecimal getMaleElitePoints(String category, Integer kilos) {
+        kilos = kilos - 1;
+        if (kilos < 0 || kilos > maleElitePoints.size()) {
+            return null;
+        }
+
+        BigDecimal result = null;
+        MaleElitePointsDTO maleElitePointsDTO = maleElitePoints.get(kilos);
+        if (category.equals("52")) {
+            result = maleElitePointsDTO.getCategory52Points();
+        } else if (category.equals("56")) {
+            result = maleElitePointsDTO.getCategory56Points();
+        } else if (category.equals("60")) {
+            result = maleElitePointsDTO.getCategory60Points();
+        } else if (category.equals("65")) {
+            result = maleElitePointsDTO.getCategory65Points();
+        } else if (category.equals("71")) {
+            result = maleElitePointsDTO.getCategory71Points();
+        } else if (category.equals("79")) {
+            result = maleElitePointsDTO.getCategory79Points();
+        } else if (category.equals("88")) {
+            result = maleElitePointsDTO.getCategory88Points();
+        } else if (category.equals(">88")) {
+            result = maleElitePointsDTO.getCategory88ToInfinityPoints();
+        } else if (category.equals("94")) {
+            result = maleElitePointsDTO.getCategory94Points();
+        } else if (category.equals(">94")) {
+            result = maleElitePointsDTO.getCategory94ToInfinityPoints();
+        } else if (category.equals("110")) {
+            result = maleElitePointsDTO.getCategory110Points();
+        } else if (category.equals(">110")) {
+            result = maleElitePointsDTO.getCategory110ToInfinityPoints();
+        }
+
+        return result;
+    }
+
     protected BigDecimal getFemaleElitePoints(String category, Integer kilos) {
         kilos = kilos - 1;
         if (kilos < 0 || kilos > femaleElitePoints.size()) {
