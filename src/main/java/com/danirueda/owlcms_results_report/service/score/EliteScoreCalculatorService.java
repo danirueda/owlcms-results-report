@@ -4,10 +4,6 @@ import com.danirueda.owlcms_results_report.dto.score.AthleteScoreResultDTO;
 import com.danirueda.owlcms_results_report.dto.score.elite.FemaleElitePointsDTO;
 import com.danirueda.owlcms_results_report.dto.score.elite.MaleElitePointsDTO;
 import com.danirueda.owlcms_results_report.model.Athlete;
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import jakarta.annotation.PostConstruct;
@@ -21,7 +17,6 @@ import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -41,14 +36,41 @@ public class EliteScoreCalculatorService implements ScoreCalculatorService {
         return null; // TODO
     }
 
-    protected BigDecimal getMaleElitePoints(String category, Integer kilos) {
-        if (kilos <= 0) {
+    protected BigDecimal getFemaleElitePoints(String category, Integer kilos) {
+        kilos = kilos - 1;
+        if (kilos < 0 || kilos > femaleElitePoints.size()) {
             return null;
         }
 
-        FemaleElitePointsDTO femaleElitePointsDTO = femaleElitePoints.get(kilos - 1);
+        BigDecimal result = null;
+        FemaleElitePointsDTO femaleElitePointsDTO = femaleElitePoints.get(kilos);
+        if (category.equals("40")) {
+            result = femaleElitePointsDTO.getCategory40Points();
+        } else if (category.equals("44")) {
+            result = femaleElitePointsDTO.getCategory44Points();
+        } else if (category.equals("48")) {
+            result = femaleElitePointsDTO.getCategory48Points();
+        } else if (category.equals("53")) {
+            result = femaleElitePointsDTO.getCategory53Points();
+        } else if (category.equals("58")) {
+            result = femaleElitePointsDTO.getCategory58Points();
+        } else if (category.equals("63")) {
+            result = femaleElitePointsDTO.getCategory63Points();
+        } else if (category.equals("69")) {
+            result = femaleElitePointsDTO.getCategory69Points();
+        } else if (category.equals(">69")) {
+            result = femaleElitePointsDTO.getCategory69ToInfinityPoints();
+        } else if (category.equals("77")) {
+            result = femaleElitePointsDTO.getCategory77Points();
+        } else if (category.equals(">77")) {
+            result = femaleElitePointsDTO.getCategory77ToInfinityPoints();
+        } else if (category.equals("86")) {
+            result = femaleElitePointsDTO.getCategory86Points();
+        } else if (category.equals(">86")) {
+            result = femaleElitePointsDTO.getCategory86ToInfinityPoints();
+        }
 
-        return null; // TODO
+        return result;
     }
 
     private void loadFemaleElitePointsTable() {
