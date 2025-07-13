@@ -3,11 +3,16 @@ package com.danirueda.owlcms_results_report.service.score;
 import com.danirueda.owlcms_results_report.dto.score.AthleteScoreResultDTO;
 import com.danirueda.owlcms_results_report.dto.score.elite.FemaleElitePointsDTO;
 import com.danirueda.owlcms_results_report.dto.score.elite.MaleElitePointsDTO;
+import com.danirueda.owlcms_results_report.model.AgeGroup;
 import com.danirueda.owlcms_results_report.model.Athlete;
+import com.danirueda.owlcms_results_report.model.Category;
+import com.danirueda.owlcms_results_report.service.AthleteService;
+import com.danirueda.owlcms_results_report.service.CategoryService;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,12 @@ import java.util.List;
 @Service
 public class EliteScoreCalculatorService implements ScoreCalculatorService {
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private AthleteService athleteService;
+
     private List<FemaleElitePointsDTO> femaleElitePoints = new ArrayList<>();
     private List<MaleElitePointsDTO> maleElitePoints = new ArrayList<>();
 
@@ -29,11 +40,15 @@ public class EliteScoreCalculatorService implements ScoreCalculatorService {
     public void loadEliteTables() {
         loadFemaleElitePointsTable();
         loadMaleElitePointsTable();
-        log.info("Aux");
     }
 
-    public List<AthleteScoreResultDTO> calculateIndividualRank(List<Athlete> athletes) {
-        return null; // TODO
+    public List<AthleteScoreResultDTO> calculateIndividualRank(String championshipName, String gender,
+                                                               List<Athlete> athletes, List<AgeGroup> ageGroups) {
+        List<AthleteScoreResultDTO> result = new ArrayList<>();
+        List<Long> championshipCategoriesIds = categoryService.getCategoryIds(ageGroups, championshipName, gender);
+        List<Athlete> getCategoryAthletes = athleteService.getAthletesInCategories(athletes, championshipCategoriesIds);
+
+        return result;
     }
 
     protected BigDecimal getMaleElitePoints(String category, Integer kilos) {
